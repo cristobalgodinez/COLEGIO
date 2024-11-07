@@ -1,0 +1,22 @@
+.body {
+  background-color: #90e0ef;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("../../img/FONDOLOGIN.jpg");
+}
+
+.formulario_Login {
+  background-color: #f5ebe0;
+}
+
+.formulario {
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: weight;
+  font-style: normal;
+}
+
+.imagen_Login {
+  background-color: #134074;
+}/*# sourceMappingURL=login.css.map */
