@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calificaciones</title>
+    <link rel="stylesheet" href="../css/calificacionesM.css">
+</head>
+
+<body class="body">
+    <section class="conexion"><!--Conexion-->
+        <?php
+        include "../controllers/conexion.php";
+        ?>
+    </section>
+
+    <section class="sesionIniciada">
+        <?php
+        include "../controllers/session/proteger.php";
+        ?>
+    </section>
+
+
+    <section class="estilo">
+        <?php
+        include("../frameworks/bootstrap.php");
+        include("../frameworks/googleFonts.php");
+        ?>
+    </section>
+
+
+
+    <div class="wrapper"><!--Barra de navegacion lateral-->
+
+
+        <aside id="sidebar">
+            <div class="h-100">
+                <div class="sidebar-logo text-center"><!--Logo-->
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <img src="../img/LOGO.png" alt="IMAGEN DEL LOGO">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ul class="sidebar-nav"><!--Barra de navegacion contenido-->
+                    <div class="text-center">
+                        <li class="sidebar-header">
+                            CPES
+                        </li>
+                    </div>
+                    <li class="sidebar-header">
+                        Asignar
+                    </li>
+                    <li class="sidebar-item pb-3">
+                        <a href="asignacionM.php" class="sidebar-link text-decoration-none">
+                            <i class="fa-solid fa-pen-to-square"></i> Crear y ver asignación
+                        </a>
+                    </li>
+                    <li class="sidebar-header">
+                        Secciones
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="estudiantesM.php" class="sidebar-link text-decoration-none">
+                            <i class="fa-solid fa-graduation-cap fa-xl"></i> Estudiantes
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="docentesM.php" class="sidebar-link text-decoration-none">
+                            <i class="fa-solid fa-person-chalkboard fa-xl"></i> Docentes
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="materiasM.php" class="sidebar-link text-decoration-none">
+                            <i class="fa-solid fa-book fa-xl pe-2"></i> Materias
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="calificacionesM.php" class="sidebar-link text-decoration-none">
+                            <i class="fa-solid fa-clipboard-list fa-xl"></i> Calificaciones
+                        </a>
+                    </li>
+
+                    <li class="sidebar-header pt-4 mt-4">
+                        Acciones
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="usuarios/usuarios.php" class="sidebar-link text-decoration-none">
+                            <i class="fa-solid fa-user-plus"></i> Crear usuario
+                        </a>
+                    </li>
+                    <li class="sidebar-item ps-3">
+                        <a href="../controllers/session/destruir.php" class="sidebar-link text-decoration-none">
+                            <i class="fa-solid fa-arrow-left"></i> Salir
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <div class="main">
+            <nav class="navbar navbar-expand px-3"><!--Boton de la barra de navegacion-->
+                <button class="btn" type="button" data-bs-theme="dark">
+                    <span><i class="fa-solid fa-bars fa-2xl"></i></span>
+                </button>
+            </nav>
+
+
+            <main class="content"><!--Ingreso a todo el contenido de las tablas-->
+                <div class="container-fluid tablaEstudiantes">
+                    <div class="col-12">
+
+
+
+                        <section class="titulo">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-2">
+                                        <div class="text-center my-3">
+                                            <h1 class="text-light">Calificaciones</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section><!--Boton del modal para agregar calificaciones-->
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="d-grid col-12 col-sm-12 col-md-12 col-lg-12 mt-2 px-5">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AgregarCalificacion" data-bs-backdrop="#staticBackdrop">
+                                            AGREGAR
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+
+                        <section class="modalAgregar"><!--Modal para agregar calificaciones-->
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-2">
+                                        <div class="ContenidoModal">
+                                            <div class="modal fade" id="AgregarCalificacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-scrollable modal-xl">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title" id="staticBackdropLabel">Asignar Calificaciones</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="container-fluid">
+                                                                <form action="../controllers/calificaciones/calificacionesCreate.php" method="post">
+                                                                    <div class="row">
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-2">
+                                                                            <select class="form-select" name="EstudianteCalificacion" id="EstudianteCalificacion" aria-label="Default select example" required>
+                                                                                <!-- <option selected>Nombre del estudiante</option> -->
+                                                                                <option value="">Estudiante</option>
+                                                                                <?php
+
+                                                                                include "../controllers/estudiantes/estudiantesRead.php";
+
+                                                                                if ($validacionEstudiantesR) {
+
+                                                                                    while ($mostrarEstudiantesC = $validacionEstudiantesR->fetch_array()) {
+                                                                                ?>
+                                                                                        <option value="<?php echo $mostrarEstudiantesC['id_Estudiante']; ?>"><?php echo $mostrarEstudiantesC['Nombres']; ?><?php echo " " . $mostrarEstudiantesC['Apellidos']; ?></option>
+                                                                                <?php
+                                                                                    }
+                                                                                }
+                                                                                ?>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-2">
+                                                                            <select class="form-select" name="MateriaCalificacion" id=MateriaCalificacion" aria-label="Default select example" required>
+                                                                                <!-- <option selected>Materia</option> -->
+                                                                                <option value="">Materia</option>
+                                                                                <?php
+
+                                                                                include "../controllers/materias/materiasRead.php";
+
+                                                                                if ($validacionMateriasR) {
+
+                                                                                    while ($mostrarMateriasC = $validacionMateriasR->fetch_array()) {
+                                                                                ?>
+                                                                                        <option value="<?php echo $mostrarMateriasC['id_Materia']; ?>"><?php echo $mostrarMateriasC['Nombre_Materia']; ?></option>
+                                                                                <?php
+                                                                                    }
+                                                                                }
+                                                                                ?>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-4">
+                                                                            <select class="form-select" name="DocenteCalificacion" id=DocenteCalificacion" aria-label="Default select example" required>
+                                                                                <!-- <option selected>Materia</option> -->
+                                                                                <option value="">Docente</option>
+                                                                                <?php
+
+                                                                                include "../controllers/docentes/docentesRead.php";
+
+                                                                                if ($validacionDocentesR) {
+
+                                                                                    while ($mostrarDocentesC = $validacionDocentesR->fetch_array()) {
+                                                                                ?>
+                                                                                        <option value="<?php echo $mostrarDocentesC['id_Docente']; ?>"><?php echo $mostrarDocentesC['Nombres']; ?><?php echo " " . $mostrarDocentesC['Apellidos']; ?></option>
+                                                                                <?php
+                                                                                    }
+                                                                                }
+                                                                                ?>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2 text-center">
+                                                                            <strong>Indicar calificaciones en números o decimales</strong>
+                                                                        </div>
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2">
+                                                                            <input type="number" class="form-control" name="primeraCalificacion" id="primeraCalificacion" placeholder="Primer unidad" required>
+                                                                        </div>
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2">
+                                                                            <input type="number" class="form-control" name="segundaCalificacion" id="segundaCalificacion" placeholder="Segunda unidad">
+                                                                        </div>
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2">
+                                                                            <input type="number" class="form-control" name="terceraCalificacion" id="terceraCalificacion" placeholder="Tercera unidad">
+                                                                        </div>
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2">
+                                                                            <input type="number" class="form-control" name="cuartaCalificacion" id="cuartaCalificacion" placeholder="Cuarta unidad">
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--La finalización del form esta abajo-->
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                                                <div class="container-fluid">
+                                                                    <div class="row">
+                                                                        <div class="d-grid col-6 col-sm-6 col-md-6 col-lg-6">
+                                                                            <button type="submit" class="btn btn-success" name="registrarCalificacion">Guardar Datos</button>
+                                                                        </div>
+                                                                        <div class="d-grid col-6 col-sm-6 col-md-6 col-lg-6">
+                                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar Acción</button>
+                                                                        </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+
+                        <section class="modalEditar"><!--Modal para editar calificaciones-->
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-2">
+                                        <div class="ContenidoModal">
+                                            <div class="modal fade" id="EditarCalificacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-scrollable modal-xl">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title" id="staticBackdropLabel">Asignar Calificaciones</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="container-fluid">
+                                                                <form action="../controllers/calificaciones/calificacionesUpdate.php" method="post">
+                                                                    <div class="row">
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-4">
+                                                                            <input type="number" class="form-control" name="idCalificacionEditar" id="idCalificacionEditar" placeholder="Id de la calificación a editar">
+                                                                        </div>
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-2">
+                                                                            <select class="form-select" name="EstudianteCalificacion" id="EstudianteCalificacion" aria-label="Default select example" required>
+                                                                                <!-- <option selected>Nombre del estudiante</option> -->
+                                                                                <option value="">Estudiante</option>
+                                                                                <?php
+
+                                                                                include "../controllers/estudiantes/estudiantesRead.php";
+
+                                                                                if ($validacionEstudiantesR) {
+
+                                                                                    while ($mostrarEstudiantesC = $validacionEstudiantesR->fetch_array()) {
+                                                                                ?>
+                                                                                        <option value="<?php echo $mostrarEstudiantesC['id_Estudiante']; ?>"><?php echo $mostrarEstudiantesC['Nombres']; ?><?php echo " " . $mostrarEstudiantesC['Apellidos']; ?></option>
+                                                                                <?php
+                                                                                    }
+                                                                                }
+                                                                                ?>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-2">
+                                                                            <select class="form-select" name="MateriaCalificacion" id=MateriaCalificacion" aria-label="Default select example" required>
+                                                                                <!-- <option selected>Materia</option> -->
+                                                                                <option value="">Materia</option>
+                                                                                <?php
+
+                                                                                include "../controllers/materias/materiasRead.php";
+
+                                                                                if ($validacionMateriasR) {
+
+                                                                                    while ($mostrarMateriasC = $validacionMateriasR->fetch_array()) {
+                                                                                ?>
+                                                                                        <option value="<?php echo $mostrarMateriasC['id_Materia']; ?>"><?php echo $mostrarMateriasC['Nombre_Materia']; ?></option>
+                                                                                <?php
+                                                                                    }
+                                                                                }
+                                                                                ?>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-4">
+                                                                            <select class="form-select" name="DocenteCalificacion" id=DocenteCalificacion" aria-label="Default select example" required>
+                                                                                <!-- <option selected>Materia</option> -->
+                                                                                <option value="">Docente</option>
+                                                                                <?php
+
+                                                                                include "../controllers/docentes/docentesRead.php";
+
+                                                                                if ($validacionDocentesR) {
+
+                                                                                    while ($mostrarDocentesC = $validacionDocentesR->fetch_array()) {
+                                                                                ?>
+                                                                                        <option value="<?php echo $mostrarDocentesC['id_Docente']; ?>"><?php echo $mostrarDocentesC['Nombres']; ?><?php echo " " . $mostrarDocentesC['Apellidos']; ?></option>
+                                                                                <?php
+                                                                                    }
+                                                                                }
+                                                                                ?>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2 text-center">
+                                                                            <strong>Indicar calificaciones en números o decimales</strong>
+                                                                        </div>
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2">
+                                                                            <input type="number" class="form-control" name="primeraCalificacion" id="primeraCalificacion" placeholder="Primer unidad" required>
+                                                                        </div>
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2">
+                                                                            <input type="number" class="form-control" name="segundaCalificacion" id="segundaCalificacion" placeholder="Segunda unidad">
+                                                                        </div>
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2">
+                                                                            <input type="number" class="form-control" name="terceraCalificacion" id="terceraCalificacion" placeholder="Tercera unidad">
+                                                                        </div>
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2">
+                                                                            <input type="number" class="form-control" name="cuartaCalificacion" id="cuartaCalificacion" placeholder="Cuarta unidad">
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--La finalización del form esta abajo-->
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                                                <div class="container-fluid">
+                                                                    <div class="row">
+                                                                        <div class="d-grid col-6 col-sm-6 col-md-6 col-lg-6">
+                                                                            <button type="submit" class="btn btn-success" name="editarCalificacion">Guardar Datos</button>
+                                                                        </div>
+                                                                        <div class="d-grid col-6 col-sm-6 col-md-6 col-lg-6">
+                                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar Acción</button>
+                                                                        </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+
+                        <section class="modalEliminar"><!--Modal para eliminar estudiantes-->
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-2">
+                                        <div class="ContenidoModal">
+                                            <div class="modal fade" id="EliminarCalificacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title" id="staticBackdropLabel">Eliminar Calificación</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="container-fluid">
+                                                                <form action="../controllers/calificaciones/calificacionDelete.php" method="post">
+                                                                    <div class="row">
+                                                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-4">
+                                                                            <input type="number" class="form-control" name="idEliminarCalificacion" id="idEliminarCalificacion" placeholder="Id del estudiante a eliminar">
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--La finalización del form esta abajo-->
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                                                <div class="container-fluid">
+                                                                    <div class="row">
+                                                                        <div class="d-grid col-6 col-sm-6 col-md-6 col-lg-6">
+                                                                            <button type="submit" class="btn btn-success" name="EliminarCalificacion">Guardar Datos</button>
+                                                                        </div>
+                                                                        <div class="d-grid col-6 col-sm-6 col-md-6 col-lg-6">
+                                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar Acción</button>
+                                                                        </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+
+                        <section class="Tablas">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-2 px-5">
+                                        <table class="table table-dark table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Id calificación</th>
+                                                    <th scope="col">Nombre del Estudiante</th>
+                                                    <th scope="col">Nombre de la Materia</th>
+                                                    <th scope="col">Nombre del Docente</th>
+                                                    <th scope="col">Primera Unidad</th>
+                                                    <th scope="col">Segunda Unidad</th>
+                                                    <th scope="col">Tercera Unidad</th>
+                                                    <th scope="col">Cuarto Unidad</th>
+                                                    <th scope="col">Promedio</th>
+                                                    <th scope="col">Acción</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+
+                                                include_once "../controllers/calificaciones/calificacionesRead.php";
+
+                                                
+                                                ?>
+                                                <tr>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col">
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#EditarCalificacion" data-bs-backdrop="#staticBackdrop"><i class=" fa-solid fa-pencil"></i></a>
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#EliminarCalificacion" data-bs-backdrop="#staticBackdrop"><i class="fa-solid fa-trash"></i></a>
+                                                    </th>
+                                                </tr>
+                                                <!--CONTENIDO DE PRUEBA-->
+                                                <tr>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col">
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#EditarGradSec" data-bs-backdrop="#staticBackdrop"><i class=" fa-solid fa-pencil"></i></a>
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#PENDIDNTE DE AGREGAR" data-bs-backdrop="#staticBackdrop"><i class="fa-solid fa-trash"></i></a>
+
+                                                    </th>
+                                                </tr>
+                                                <!--CONTENIDO DE PRUEBA-->
+                                                <tr>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col">
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#EditarGradSec" data-bs-backdrop="#staticBackdrop"><i class=" fa-solid fa-pencil"></i></a>
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#PENDIDNTE DE AGREGAR" data-bs-backdrop="#staticBackdrop"><i class="fa-solid fa-trash"></i></a>
+
+                                                    </th>
+                                                </tr>
+                                                <!--CONTENIDO DE PRUEBA-->
+                                                <tr>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col">
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#EditarGradSec" data-bs-backdrop="#staticBackdrop"><i class=" fa-solid fa-pencil"></i></a>
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#PENDIDNTE DE AGREGAR" data-bs-backdrop="#staticBackdrop"><i class="fa-solid fa-trash"></i></a>
+
+                                                    </th>
+                                                </tr>
+                                                <!--CONTENIDO DE PRUEBA-->
+                                                <tr>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col">
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#EditarGradSec" data-bs-backdrop="#staticBackdrop"><i class=" fa-solid fa-pencil"></i></a>
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#PENDIDNTE DE AGREGAR" data-bs-backdrop="#staticBackdrop"><i class="fa-solid fa-trash"></i></a>
+
+                                                    </th>
+                                                </tr>
+                                                <!--CONTENIDO DE PRUEBA-->
+                                                <tr>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col">
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#EditarGradSec" data-bs-backdrop="#staticBackdrop"><i class=" fa-solid fa-pencil"></i></a>
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#PENDIDNTE DE AGREGAR" data-bs-backdrop="#staticBackdrop"><i class="fa-solid fa-trash"></i></a>
+
+                                                    </th>
+                                                </tr>
+                                                <!--CONTENIDO DE PRUEBA-->
+                                                <tr>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col">
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#EditarGradSec" data-bs-backdrop="#staticBackdrop"><i class=" fa-solid fa-pencil"></i></a>
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#PENDIDNTE DE AGREGAR" data-bs-backdrop="#staticBackdrop"><i class="fa-solid fa-trash"></i></a>
+
+                                                    </th>
+                                                </tr>
+                                                <!--CONTENIDO DE PRUEBA-->
+                                                <tr>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col">
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#EditarGradSec" data-bs-backdrop="#staticBackdrop"><i class=" fa-solid fa-pencil"></i></a>
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#PENDIDNTE DE AGREGAR" data-bs-backdrop="#staticBackdrop"><i class="fa-solid fa-trash"></i></a>
+
+                                                    </th>
+                                                </tr>
+                                                <!--CONTENIDO DE PRUEBA-->
+                                                <tr>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col">
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#EditarGradSec" data-bs-backdrop="#staticBackdrop"><i class=" fa-solid fa-pencil"></i></a>
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#PENDIDNTE DE AGREGAR" data-bs-backdrop="#staticBackdrop"><i class="fa-solid fa-trash"></i></a>
+
+                                                    </th>
+                                                </tr>
+                                                <!--CONTENIDO DE PRUEBA-->
+                                                <tr>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col"></th>
+                                                    <th scope="col">
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#EditarGradSec" data-bs-backdrop="#staticBackdrop"><i class=" fa-solid fa-pencil"></i></a>
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#PENDIDNTE DE AGREGAR" data-bs-backdrop="#staticBackdrop"><i class="fa-solid fa-trash"></i></a>
+
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </main>
+        </div>
+
+    </div>
+    <section class="contenidoJS"><!--Acciones de la barra de navegacion con JS-->
+        <script src="../javaScript/barraNav.js"></script>
+    </section>
+
+</body>
+
+</html>
